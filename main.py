@@ -89,7 +89,19 @@ class BinaryTree:
 
     # TODO
     def convert_to_sorted_array(self):
-        pass
+        return self._sorted_array_rec(self.root)
+
+    def _sorted_array_rec(self, current):
+        the_list = []
+        if current is not None:
+            old_list = self._sorted_array_rec(current.left_child)
+            for j in range(len(old_list)):
+                the_list.append(old_list[j])
+            the_list.append(current.value)
+            future_list = self._sorted_array_rec(current.right_child)
+            for k in range(len(future_list)):
+                the_list.append(future_list[k])
+        return the_list
 
     # TODO
     def lowest_common_ancestor(self, val1: int, val2: int, root: TreeNode):
