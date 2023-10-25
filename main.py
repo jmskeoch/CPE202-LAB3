@@ -1,18 +1,19 @@
 from dataclasses import dataclass
+import unittest
 
 @dataclass
-class Node:
+class TreeNode:
     value: int
-    left_child: 'Node' = None
-    right_child: 'Node' = None
+    left_child: 'TreeNode' = None
+    right_child: 'TreeNode' = None
 
 @dataclass
 class BinaryTree:
-    root: Node = None
+    root: TreeNode = None
 
     def insert(self, value):
         if not self.root:
-            self.root = Node(value)
+            self.root = TreeNode(value)
         else:
             self._insert_recursive(self.root, value)
 
@@ -21,12 +22,12 @@ class BinaryTree:
             if current_node.left_child is not None:
                 self._insert_recursive(current_node.left_child, value)
             else:
-                current_node.left_child = Node(value)
+                current_node.left_child = TreeNode(value)
         elif value > current_node.value:
             if current_node.right_child is not None:
                 self._insert_recursive(current_node.right_child, value)
             else:
-                current_node.right_child = Node(value)
+                current_node.right_child = TreeNode(value)
         else:
             # Value already exists in the tree, handle as per your requirement.
             pass
@@ -91,47 +92,34 @@ class BinaryTree:
         pass
 
     # TODO
-    def lowest_common_ancestor(self):
-        pass
+    def lowest_common_ancestor(self, val1: int, val2: int, root: TreeNode):
+        if root is None:
+            return None
 
-    # TODO
+        current = root
+        while current is not None:
+            if val1 < current.value and val2 < current.value:
+                current = current.left_child
+            elif val1 > current.value and val2 > current.value:
+                current = current.right_child
+            else:
+                return current.value
+
+        return None
+
     def delete_tree(self):
-        self.root= None
+        self.root = None
 
 
-# Example usage:
-if __name__ == "__main__":
-    binary_tree = BinaryTree()
-    elements = [44, 17, 88, 8, 32, 65, 97,54,82,93,78,80]
+binary_tree = BinaryTree()
+elements = [44, 17, 88, 8, 32, 65, 97, 54, 82, 93, 78, 80]
 
-    for element in elements:
-        binary_tree.insert(element)
+for element in elements:
+    binary_tree.insert(element)
 
-    print(binary_tree.search(65))  # Output: True
-    print(binary_tree.search(9))  # Output: False
-    print("Original Binary Search Tree:")
-    print(binary_tree.search(65))  # Output: True
+class TestCases(unittest.TestCase):
+    def test_lca(self):
+        lca = binary_tree.lowest_common_ancestor(17, 88, binary_tree.root)
+        self.assertEqual(lca, 44)
 
-    # Deleting a node with one child
-    binary_tree.delete(65)
-    print("Binary Search Tree after deleting 65:")
-    print(binary_tree.search(65))  # Output: False
 
-    # Deleting a node with no children
-    binary_tree.delete(8)
-    print("Binary Search Tree after deleting 8:")
-    print(binary_tree.search(8))   # Output: False
-
-    # Deleting a node with two children
-    binary_tree.delete(88)
-    print("Binary Search Tree after deleting 88:")
-    print(binary_tree.search(88))  # Output: False
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-#test comment from nick
-#hahahn
