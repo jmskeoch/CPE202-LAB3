@@ -96,14 +96,18 @@ class BinaryTree:
         if root is None:
             return None
 
-        current = root
-        while current is not None:
-            if val1 < current.value and val2 < current.value:
-                current = current.left_child
-            elif val1 > current.value and val2 > current.value:
-                current = current.right_child
+        current = root  # Start at root
+        while current is not None:  # If we can traverse...
+            if val1 < current.value and val2 < current.value:  # Both values less than current, traverse left
+                if current.left_child.value == val1 or current.left_child.value == val2:  # Check Inline
+                    return current.value
+                current = current.left_child  # Traverse left_child
+            elif val1 > current.value and val2 > current.value:  # Both values greater than current, traverse right
+                if current.right_child.value == val1 or current.right_child.value == val2:  # Check Inline
+                    return current.value
+                current = current.right_child  # Traver right_child
             else:
-                return current.value
+                return current.value  # One node must be greater than current while the other is less, so return current
 
         return None
 
@@ -113,13 +117,34 @@ class BinaryTree:
 
 binary_tree = BinaryTree()
 elements = [44, 17, 88, 8, 32, 65, 97, 54, 82, 93, 78, 80]
+"""
+                  44
+                 /  \
+                17   88
+             /    \ /   \
+            8    32 65    97
+                    /\    /\
+                   54 82 93
+                      /
+                     78
+                      \
+                      80
+"""
 
 for element in elements:
     binary_tree.insert(element)
 
 class TestCases(unittest.TestCase):
-    def test_lca(self):
+    def test_lca_root(self):
         lca = binary_tree.lowest_common_ancestor(17, 88, binary_tree.root)
         self.assertEqual(lca, 44)
+
+    def test_lca_leafs(self):
+        lca = binary_tree.lowest_common_ancestor(54, 97, binary_tree.root)
+        self.assertEqual(lca, 88)
+
+    def test_lca_inline(self):
+        lca = binary_tree.lowest_common_ancestor(54, 65, binary_tree.root)
+        self.assertEqual(lca, 88)
 
 
