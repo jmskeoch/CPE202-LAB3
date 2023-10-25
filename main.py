@@ -85,7 +85,14 @@ class BinaryTree:
 
     # TODO
     def isBST(self):
-        pass
+        isBST= True
+        in_order = self.convert_to_sorted_array()
+        last = -9999999999999999
+        for val in in_order:
+            if val <= last:
+                isBST = False
+            last = val
+        return isBST
 
     # TODO
     def convert_to_sorted_array(self):
@@ -111,6 +118,8 @@ class BinaryTree:
 
         return None
 
+
+    # we will write a method that deletes the entire BST
     def delete_tree(self):
         self.root = None
 
