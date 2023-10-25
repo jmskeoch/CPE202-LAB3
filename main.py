@@ -96,7 +96,7 @@ class BinaryTree:
 
     # TODO
     def delete_tree(self):
-        pass
+        self.root= None
 
 
 # Example usage:
