@@ -84,7 +84,7 @@ class BinaryTree:
         return current.value
 
     def isBST(self):
-        isBST= True
+        isBST = True
         in_order = self.convert_to_sorted_array()
         last = -9999999999999999
         for val in in_order:
@@ -133,8 +133,21 @@ class BinaryTree:
         self.root = None
 
 
+def is_bst_test(list):
+    isBST = True
+    last = -9999999999999999
+    for val in list:
+        if val <= last:
+            isBST = False
+        last = val
+    return isBST
+
+
 binary_tree = BinaryTree()
 elements = [44, 17, 88, 8, 32, 65, 97, 54, 82, 93, 78, 80]
+
+for element in elements:
+    binary_tree.insert(element)
 """
                   44
                  /  \
@@ -149,11 +162,24 @@ elements = [44, 17, 88, 8, 32, 65, 97, 54, 82, 93, 78, 80]
                       80
 """
 
-for element in elements:
-    binary_tree.insert(element)
-
 class TestCases(unittest.TestCase):
-    def test_lca_root(self):
+    def test_isBST_pos(self):  # TEST IS_BST
+        self.assertEqual(binary_tree.isBST(), True)
+
+    def test_isBST_neg(self):
+        not_a_bst = [44, 17, 88, 1, 2, 45, 3, 97, 54, 82, 93, 78, 80]
+        self.assertEqual(is_bst_test(not_a_bst), False)
+
+    def test_isBST_one_node(self):
+        troll_bst = BinaryTree()
+        troll_bst.insert(3)
+        self.assertEqual(troll_bst.isBST(), True)
+
+    def test_sort_array(self):  # TEST SORTED_ARRAY
+        result = binary_tree.convert_to_sorted_array()
+        self.assertEqual(result, [8, 17, 32, 44, 54, 65, 78, 80, 82, 88, 93, 97])
+
+    def test_lca_root(self):  # TEST LCA
         lca = binary_tree.lowest_common_ancestor(17, 88, binary_tree.root)
         self.assertEqual(lca, 44)
 
@@ -165,4 +191,8 @@ class TestCases(unittest.TestCase):
         lca = binary_tree.lowest_common_ancestor(54, 65, binary_tree.root)
         self.assertEqual(lca, 88)
 
+    def test_delete_tree(self):  # TEST DELETE TREE
+        bye_bye_tree = binary_tree
+        bye_bye_tree.delete_tree()
+        self.assertEqual(bye_bye_tree.root, None)
 
