@@ -130,7 +130,17 @@ class BinaryTree:
 
     # we will write a method that deletes the entire BST
     def delete_tree(self):
+        self.delete_tree_recursive(self.root)
         self.root = None
+
+    def delete_tree_recursive(self, node):
+        if node is not None:
+            self.delete_tree_recursive(node.left_child)
+            self.delete_tree_recursive(node.right_child)
+            node.left_child = None
+            node.right_child = None
+            node.value = None
+
 
 
 def is_bst_test(list):
@@ -163,6 +173,18 @@ for element in elements:
 """
 
 class TestCases(unittest.TestCase):
+    def test_lca_root(self):  # TEST LCA
+        lca = binary_tree.lowest_common_ancestor(17, 88, binary_tree.root)
+        self.assertEqual(lca, 44)
+
+    def test_lca_leafs(self):
+        lca = binary_tree.lowest_common_ancestor(54, 97, binary_tree.root)
+        self.assertEqual(lca, 88)
+
+    def test_lca_inline(self):
+        lca = binary_tree.lowest_common_ancestor(54, 65, binary_tree.root)
+        self.assertEqual(lca, 88)
+
     def test_isBST_pos(self):  # TEST IS_BST
         self.assertEqual(binary_tree.isBST(), True)
 
@@ -179,20 +201,10 @@ class TestCases(unittest.TestCase):
         result = binary_tree.convert_to_sorted_array()
         self.assertEqual(result, [8, 17, 32, 44, 54, 65, 78, 80, 82, 88, 93, 97])
 
-    def test_lca_root(self):  # TEST LCA
-        lca = binary_tree.lowest_common_ancestor(17, 88, binary_tree.root)
-        self.assertEqual(lca, 44)
-
-    def test_lca_leafs(self):
-        lca = binary_tree.lowest_common_ancestor(54, 97, binary_tree.root)
-        self.assertEqual(lca, 88)
-
-    def test_lca_inline(self):
-        lca = binary_tree.lowest_common_ancestor(54, 65, binary_tree.root)
-        self.assertEqual(lca, 88)
-
     def test_delete_tree(self):  # TEST DELETE TREE
-        bye_bye_tree = binary_tree
+        bye_bye_tree = BinaryTree()
+        for element in elements:
+            bye_bye_tree.insert(element)
         bye_bye_tree.delete_tree()
         self.assertEqual(bye_bye_tree.root, None)
 
