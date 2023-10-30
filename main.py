@@ -135,11 +135,11 @@ class BinaryTree:
 
     def delete_tree_recursive(self, node):
         if node is not None:
+            print(node.value)
             self.delete_tree_recursive(node.left_child)
             self.delete_tree_recursive(node.right_child)
-            node.left_child = None
-            node.right_child = None
-            node.value = None
+            del node
+
 
 
 
